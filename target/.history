@@ -1,0 +1,10 @@
+runMain gossip_pushSum.project2
+exit
+runMain project2
+run 100 Line gossip
+runMain 100 Line gossip
+run 100 Line gossip
+run 100 FullNetwork gossip
+run 10 FullNetwork gossip
+run 100 FullNetwork gossip
+run 15 FullNetwork gossip
