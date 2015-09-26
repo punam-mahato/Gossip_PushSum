@@ -21,15 +21,16 @@ object Project2 {
 			val nodes = args(0).toInt
 			val master_actor = mastersystem.actorOf(Master.props(mastersystem, nodes, args(1), args(2)), name = "MasterActor")
 			
-			master_actor ! createTopology()
+			master_actor ! CreateTopology()
 
 			val gossipMessage:String="Hello"
-			if (args(2)=="gossip"){
-				master_actor ! startGossip(gossipMessage)
+			if (args(2)=="gossip"){				
+				master_actor ! StartGossip(gossipMessage)
 			}
-			if (args(2)=="pushsum"){
-				master_actor ! startPushSum
+			if (args(2)=="pushsum"){				
+				master_actor ! StartPushSum()				
 			}
+
 		}
 
 		else {
