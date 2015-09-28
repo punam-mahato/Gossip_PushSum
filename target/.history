@@ -25,3 +25,7 @@ run 15 Line pushsum
 run 15 Line gossip
 run 15 Line pushsum
 run 15 FullNetwork pushsum
+run 15 3DGrid pushsum
+run 125 3DGrid pushsum
+run 8 3DGrid pushsum
+run 27 3DGrid pushsum

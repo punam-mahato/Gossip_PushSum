@@ -60,7 +60,7 @@ class Worker(index:Int) extends Actor{
 			}
 
 		case BeginPushSum() => 		
-			println("mysum: " + sum )	
+			println("Sum at starting node: " + sum )	
 			sum= sum/2
 			weight= weight/2
 			currentRatio= sum/weight
@@ -73,12 +73,12 @@ class Worker(index:Int) extends Actor{
 			ratioPrev2= ratioPrev1
 			ratioPrev1= currentRatio
 
-			println("\ngot message from node: " + sender)
+			//println("\ngot message from node: " + sender)
 			sum = sum + receivedSum/2
 			weight = weight + receivedWeight/2
 
 			currentRatio= sum/weight
-			println("My index: "+ index +" current sum: " + sum + "  weight: " +weight + "  ratio: " + currentRatio)
+			//println("My index: "+ index +" current sum: " + sum + "  weight: " +weight + "  ratio: " + currentRatio)
 
 			if ((currentRatio - ratioPrev3).abs <= 0.0000000001){
 				println("\ncurrentRatio: " + currentRatio)
@@ -91,7 +91,7 @@ class Worker(index:Int) extends Actor{
 
 			else{
 				val r = (scala.util.Random).nextInt(myNeighboursList.length)
-				println("passing message to neighbour: " + r)
+				//println("passing message to neighbour: " + r)
 				myNeighboursList(r) ! PassSum(sum, weight)
 			}
 	
