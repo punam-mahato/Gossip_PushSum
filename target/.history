@@ -29,3 +29,4 @@ run 15 3DGrid pushsum
 run 125 3DGrid pushsum
 run 8 3DGrid pushsum
 run 27 3DGrid pushsum
+run 27 Imperfect3DGrid  pushsum

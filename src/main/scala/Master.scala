@@ -59,7 +59,7 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 	}
 
 
-	def setUpNodes(numNodes:Int, topology:String):Int = {
+	def setUpNodes(numNodes:Int, topology:String) = {
 		//Actors arranged in Line: Linear array
 		if((topology == "Line")||(topology=="FullNetwork")){
 			for (i<-0 until numNodes){
@@ -77,6 +77,7 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 			
 			ActorsIn3DGrid = Array.ofDim[ActorRef](dimension, dimension, dimension)
 			val newnumNodes:Int= scala.math.pow(dimension, 3).toInt
+
 			//creating actors
 			for (i<-0 until newnumNodes){
 				var index:Int =i
@@ -102,7 +103,7 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 					}
 				}
 
-			println("-----------------------------------------------------")
+			println("----------------------------------------------------------")
 		
 
 		}		
@@ -140,19 +141,20 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 		          ActorsList(i) ! SetYourNeighboursList(neighboursList)
 				}				
 			}
+			
 			case "3DGrid" => {
-				makeNeighboursList(ActorsIn3DGrid, dimension)				
+				makeNeighboursList(ActorsIn3DGrid, dimension, topology)				
 			}
 
-
-
-			//case Imperfect3DGrid
+			case "Imperfect3DGrid" => {
+				makeNeighboursList(ActorsIn3DGrid, dimension, topology)
+			}
 		}
 
-		return 0
+		//return 0
 	}
 
-	def makeNeighboursList(ActorsIn3DGrid:Array[Array[Array[ActorRef]]], dimension:Int){
+	def makeNeighboursList(ActorsIn3DGrid:Array[Array[Array[ActorRef]]], dimension:Int, topology:String){
 				
 		for (i<-0 until dimension){
 			for (j<-0 until dimension){
@@ -180,6 +182,10 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 					if(includeFront){neighboursList += ActorsIn3DGrid(i)(j)((k-1))}
 					if(includeBack){neighboursList += ActorsIn3DGrid(i)(j)((k+1))}
 
+					if(topology=="Imperfect3DGrid"){
+						neighboursList += addARandomNeighbour(ActorsList)
+					}
+
 					println("\nActor at node, i:"+i+" j:"+j+" k:"+k)
 					println("My neighboursList is: " + neighboursList)
 					for (z<-0 until neighboursList.length){
@@ -200,6 +206,17 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 
 		
 	}
+
+	def addARandomNeighbour(ActorsList:ArrayBuffer[ActorRef]):ActorRef= {
+			
+			val r = (scala.util.Random).nextInt(ActorsList.length)
+			 var randomNeighbour: ActorRef = ActorsList(r)	
+
+			 randomNeighbour
+
+	}
+
+	
 
 
 
