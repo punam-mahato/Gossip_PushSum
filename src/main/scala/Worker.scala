@@ -14,7 +14,7 @@ import Project2._
 case class SetYourNeighboursList(neighboursList:ArrayBuffer[ActorRef])
 case class BeginGossip(gossipMessage:String)
 case class PassMessage(gossipMessage:String)
-case class BeginPushSum()
+case class BeginPushSum(startSum:Double, startWeight:Double)
 case class PassSum(receivedSum:Double, receivedWeight:Double)
 
 
@@ -27,7 +27,7 @@ class Worker(index:Int) extends Actor{
 	//val index:Int = index
 	var gossipMessageCount:Int = 0
 	var sum:Double= index
-	var weight:Double = 1
+	var weight:Double = 0
 	var ratioPrev3: Double =0
 	var ratioPrev2: Double =0
 	var ratioPrev1: Double =0
@@ -51,17 +51,22 @@ class Worker(index:Int) extends Actor{
 				context.actorSelection("..") ! STOPGossip()
 			}
 			else{
-				println("got message from node: " + sender)
+				//println("got message from node: " + sender)
 				gossipMessageCount +=1
 				val r = (scala.util.Random).nextInt(myNeighboursList.length)
-				println("passing message to neighbour: " + r)
+				//println("passing message to neighbour: " + r)
+				println("MygossipMessageCount: " + gossipMessageCount)
 			myNeighboursList(r) ! PassMessage(gossipMessage)
 			
 			}
 
-		case BeginPushSum() => 		
-			println("Sum at starting node: " + sum )	
-			sum= sum/2
+		case BeginPushSum(startSum, startWeight) => 		
+			//println("Sum at starting node: " + 0 )
+			sum = sum + startSum
+			weight = weight + startWeight
+			println("starting withsum: " + sum)
+			println("starting with weight: " + weight)			
+			sum = sum/2
 			weight= weight/2
 			currentRatio= sum/weight
 			val r = (scala.util.Random).nextInt(myNeighboursList.length)
@@ -69,16 +74,25 @@ class Worker(index:Int) extends Actor{
 			myNeighboursList(r) ! PassSum(sum, weight)
 
 		case PassSum(receivedSum, receivedWeight) =>
+			//println("\ngot message from node: " + sender)
+			sum = sum + receivedSum
+			weight = weight + receivedWeight
+
+			//println("sum: " + sum)
+			//println("weight: " + weight)
+
 			ratioPrev3= ratioPrev2
 			ratioPrev2= ratioPrev1
 			ratioPrev1= currentRatio
 
-			//println("\ngot message from node: " + sender)
-			sum = sum + receivedSum/2
-			weight = weight + receivedWeight/2
+
 
 			currentRatio= sum/weight
 			//println("My index: "+ index +" current sum: " + sum + "  weight: " +weight + "  ratio: " + currentRatio)
+			sum = sum/2
+			weight = weight/2
+
+			
 
 			if ((currentRatio - ratioPrev3).abs <= 0.0000000001){
 				println("\ncurrentRatio: " + currentRatio)
@@ -86,7 +100,9 @@ class Worker(index:Int) extends Actor{
 				println("ratioPrev2: " + ratioPrev2)
 				println("ratioPrev3: " + ratioPrev3)
 				println("\nThe difference of the ratio in three consecutive rounds: " + (currentRatio -ratioPrev3).abs)
+				
 				context.actorSelection("..") ! STOPPushSum()
+
 			}
 
 			else{

@@ -30,3 +30,11 @@ run 125 3DGrid pushsum
 run 8 3DGrid pushsum
 run 27 3DGrid pushsum
 run 27 Imperfect3DGrid  pushsum
+run 8 Imperfect3DGrid  pushsum
+run 8 Imperfect3DGrid  gossip
+run 8 Imperfect3DGrid  pushsum
+run 8 3DGrid  pushsum
+run 8 Line  pushsum
+run 8 FullNetwork  pushsum
+run 1000 3DGrid  pushsum
+run 8 FullNetwork  pushsum

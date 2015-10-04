@@ -4,7 +4,7 @@
 		module="gossip_pushsum_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20150924151854"
+		publication="20150929144536"
 	>
 		<description>
 		Gossip_PushSum

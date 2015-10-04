@@ -16,7 +16,7 @@ object Project2 {
 	def main(args: Array[String]){
 		
 
-		if (args.length==3){
+		if ((args.length==3)|| (args.length==4)){
 			val mastersystem = ActorSystem("MasterActorSystem", ConfigFactory.load().getConfig("masterSystem"))
 			val nodes = args(0).toInt
 			val master_actor = mastersystem.actorOf(Master.props(mastersystem, nodes, args(1), args(2)), name = "MasterActor")
@@ -31,10 +31,13 @@ object Project2 {
 				master_actor ! StartPushSum()				
 			}
 
+			if (args.length==4)
+				master_actor ! ImplementFailureModel()
+
 		}
 
 		else {
-			println("Provide 3 arguments: numNodes, topology:<>, algorithm: <gossip|pushsum>")
+			println("Provide 3 arguments: numNodes, topology:<Line|Full|3DGrid|Imperfect3DGrid>, algorithm: <gossip|pushsum>")
 		}
 	}
 }

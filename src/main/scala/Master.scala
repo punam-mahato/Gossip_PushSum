@@ -17,6 +17,7 @@ case class StartGossip(gossipMessage:String)
 case class StartPushSum()
 case class STOPGossip()
 case class STOPPushSum()
+case class ImplementFailureModel()
 
 object Master {
 	
@@ -45,7 +46,7 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 		case StartPushSum()=>			
 			val r = (scala.util.Random).nextInt(ActorsList.length)
 			println("\nStart pushsum from " + r + "th node in the ActorsList! \n" )
-			ActorsList(r) ! BeginPushSum()
+			ActorsList(r) ! BeginPushSum(0,1)
 			
 
 		case STOPGossip() =>
@@ -66,8 +67,11 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 				var index:Int =i
 				val acref =  context.actorOf(Props(classOf[Worker], i) )
 				ActorsList+=acref
+				//println("index: "+index)
 			}
+			
 		}
+
 
 
 		//Actors arranged in 3D Grid: 3D array
@@ -83,9 +87,11 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 				var index:Int =i
 				val acref =  context.actorOf(Props(classOf[Worker], i) )
 				ActorsList+=acref
+				//println("index: "+index)
 			}
+			
 			println("\nNew number of nodes: " + ActorsList.length)
-			println("\n"+ActorsList)			
+			//println("\n"+ActorsList)			
 			println("\nDimension of the Grid: " + dimension+ "*" +dimension+ "*"+dimension)
 			
 
@@ -185,7 +191,7 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 					if(topology=="Imperfect3DGrid"){
 						neighboursList += addARandomNeighbour(ActorsList)
 					}
-
+					/*
 					println("\nActor at node, i:"+i+" j:"+j+" k:"+k)
 					println("My neighboursList is: " + neighboursList)
 					for (z<-0 until neighboursList.length){
@@ -195,7 +201,7 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 										if(ActorsIn3DGrid(i)(j)(k) == neighboursList(z))
 											println("Neighbour's Index: i:"+i+" j:"+j+" k:"+k)
 											}}}
-					}
+					}*/
 
 					ActorsIn3DGrid(i)(j)(k) ! SetYourNeighboursList(neighboursList)
 
