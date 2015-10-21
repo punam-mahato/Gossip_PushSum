@@ -38,3 +38,4 @@ run 8 Line  pushsum
 run 8 FullNetwork  pushsum
 run 1000 3DGrid  pushsum
 run 8 FullNetwork  pushsum
+run 1000 FullNetwork  pushsum

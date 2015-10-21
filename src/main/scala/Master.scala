@@ -5,11 +5,11 @@ import java.util.concurrent.TimeUnit
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.collection.mutable.ArrayBuffer
 import scala.math
-import Worker._
+
 import scala.concurrent.{Future, blocking}
 import akka.pattern.ask
 import com.typesafe.config.ConfigFactory
-import Project2._
+
 
 
 case class CreateTopology()

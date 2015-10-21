@@ -1,5 +1,5 @@
 import akka.actor.{ActorRef, ActorSystem, Props, Actor, Inbox}
-import Master._
+
 import akka.util.Timeout
 import scala.concurrent.duration._
 import java.util.concurrent.TimeUnit

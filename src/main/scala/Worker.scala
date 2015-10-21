@@ -1,14 +1,13 @@
 import akka.actor.{ActorRef, ActorSystem, Props, Actor, Inbox}
 import akka.actor._ 
-import Master._
+
 import scala.collection.mutable.ListBuffer
 import scala.collection.TraversableOnce
 import scala.util.control._
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.duration._
 import com.typesafe.config.ConfigFactory
-import Worker._
-import Project2._
+
 
 
 case class SetYourNeighboursList(neighboursList:ArrayBuffer[ActorRef])
@@ -18,10 +17,7 @@ case class BeginPushSum(startSum:Double, startWeight:Double)
 case class PassSum(receivedSum:Double, receivedWeight:Double)
 
 
-object Worker {
 
-	
-}
 
 class Worker(index:Int) extends Actor{
 	//val index:Int = index
