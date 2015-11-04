@@ -67,6 +67,7 @@ class Worker(index:Int) extends Actor{
 			currentRatio= sum/weight
 			val r = (scala.util.Random).nextInt(myNeighboursList.length)
 			println ("Pushsum started & passing sum to neighbour: " + r + "\n")
+			
 			myNeighboursList(r) ! PassSum(sum, weight)
 
 		case PassSum(receivedSum, receivedWeight) =>

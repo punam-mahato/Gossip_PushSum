@@ -46,6 +46,7 @@ class Master(acsys: ActorSystem, numNodes: Int, topology: String, algorithm:Stri
 		case StartPushSum()=>			
 			val r = (scala.util.Random).nextInt(ActorsList.length)
 			println("\nStart pushsum from " + r + "th node in the ActorsList! \n" )
+			
 			ActorsList(r) ! BeginPushSum(0,1)
 			
 
